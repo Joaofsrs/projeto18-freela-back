@@ -21,3 +21,11 @@ export function getPassagemByIdDB(id) {
         [id]
     );
 }
+
+
+export function getPassagemByNameDB(cidade) {
+    return db.query(
+        `SELECT * FROM passagem WHERE destino=$1;`,
+        [cidade]
+    );
+}

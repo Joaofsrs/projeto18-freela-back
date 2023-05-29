@@ -1,10 +1,10 @@
 import { db } from "../database/db.connection.js";
 
-export function createHospedagemDB(localHospedagem, precoHospedagem, descricaoHospedagem) {
+export function createHospedagemDB(localHospedagem, precoHospedagem, descricaoHospedagem, fotoPrincipal) {
     return db.query(
-        `INSERT INTO hospedagem ("localHospedagem", "precoHospedagem", "descricaoHospedagem")
-            VALUES ($1, $2, $3);
-        `, [localHospedagem, precoHospedagem, descricaoHospedagem]
+        `INSERT INTO hospedagem ("localHospedagem", "precoHospedagem", "descricaoHospedagem", "fotoPrincipal")
+            VALUES ($1, $2, $3, $4);
+        `, [localHospedagem, precoHospedagem, descricaoHospedagem, fotoPrincipal]
     );
 }
 
@@ -17,6 +17,12 @@ export function getHospedagemDB() {
 export function getHospedagemByIdDB(id) {
     return db.query(
         `SELECT * FROM hospedagem WHERE id=$1;`,[id]
+    );
+}
+
+export function getHospedagemByLocalDB(local) {
+    return db.query(
+        `SELECT * FROM hospedagem WHERE "localHospedagem"=$1;`,[local]
     );
 }
 

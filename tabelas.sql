@@ -13,12 +13,13 @@ CREATE TABLE hospedagem (
     id SERIAL PRIMARY KEY,
     "localHospedagem" VARCHAR(100) NOT NULL,
     "precoHospedagem" DECIMAL(8, 2) NOT NULL,
-    "descricaoHospedagem" VARCHAR(100) NOT NULL
+    "descricaoHospedagem" VARCHAR(100) NOT NULL,
+    "fotoPrincipal" TEXT NOT NULL
 );
 
 CREATE TABLE fotos (
     id SERIAL PRIMARY KEY,
-    url TEXT,
+    url TEXT NOT NULL,
     "hospedagemId" INTEGER NOT NULL,
     FOREIGN KEY ("hospedagemId") REFERENCES hospedagem(id)    
 );

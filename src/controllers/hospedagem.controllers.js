@@ -1,10 +1,10 @@
-import { createHospedagemDB, getComodidadesHospedagemByIdDB, getFotoHospedagemByIdDB, getHospedagemByIdDB, getHospedagemDB, insertComodidadesHospedagemByIdDB, insertFotoHospedagemByIdDB } from "../repositories/hospedagem.repository.js";
+import { createHospedagemDB, getComodidadesHospedagemByIdDB, getFotoHospedagemByIdDB, getHospedagemByIdDB, getHospedagemByLocalDB, getHospedagemDB, insertComodidadesHospedagemByIdDB, insertFotoHospedagemByIdDB } from "../repositories/hospedagem.repository.js";
 
 export async function createHospedagem(req, res) {
-    const { localHospedagem, precoHospedagem, descricaoHospedagem } = req.body;
-
+    const { localHospedagem, precoHospedagem, descricaoHospedagem, fotoPrincipal } = req.body;
+    const localHospedagemUpper = localHospedagem.toUpperCase();
     try {
-        await createHospedagemDB(localHospedagem, precoHospedagem, descricaoHospedagem);
+        await createHospedagemDB(localHospedagemUpper, precoHospedagem, descricaoHospedagem, fotoPrincipal);
 
         res.sendStatus(201);
     } catch (err) {
@@ -27,6 +27,20 @@ export async function getHospedagemById(req, res){
     try {
         const hospedagem = await getHospedagemByIdDB(id);
         if (hospedagem.rowCount === 0) return res.status(404).send({ message: "hospedagem não existe!" });
+
+        res.status(200).send(hospedagem.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
+
+export async function getHospedagemByLocal(req, res) {
+    const cidade = req.query.cidade;
+    const cidadeUpper = cidade.toUpperCase();
+
+    try {
+        const hospedagem = await getHospedagemByLocalDB(cidadeUpper);
+        if (hospedagem.rowCount === 0) return res.status(404).send({ message: "hospedagens para esse destino não estão disponiveis!" });
 
         res.status(200).send(hospedagem.rows);
     } catch (err) {
